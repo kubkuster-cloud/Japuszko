@@ -48,6 +48,22 @@ func hide_hint(text: String) -> void:
 	hint.hide()
 
 
+func show_boss_bar(boss_name: String, max_health: int) -> void:
+	$BossBar/Name.text = boss_name
+	var bar: ProgressBar = $BossBar/Health
+	bar.max_value = max_health
+	bar.value = max_health
+	$BossBar.show()
+
+
+func set_boss_health(health: int) -> void:
+	create_tween().tween_property($BossBar/Health, "value", float(health), 0.25)
+
+
+func hide_boss_bar() -> void:
+	$BossBar.hide()
+
+
 ## Licznik uratowanych mieszkańców – widoczny tylko na poziomach z klatkami.
 func set_rescued(count: int, total: int) -> void:
 	for node in rescue_nodes:

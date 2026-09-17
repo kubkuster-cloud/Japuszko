@@ -36,6 +36,11 @@ func _ready() -> void:
 		_play()
 
 
+## Scena zmieniona w trakcie intro (np. wyjście do menu) – przerywamy animację.
+func _exit_tree() -> void:
+	_finished = true
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if _finished:
 		return

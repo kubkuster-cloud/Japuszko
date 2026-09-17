@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/background_apple.tscn" id="2_bg"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/apple_hero_frames.tres" id="3_hero"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/slime_frames.tres" id="4_slime"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/orange_resident_frames.tres" id="5_orange"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 32
+font_color = Color(0.98, 0.78, 0.2, 1)
+outline_size = 8
+outline_color = Color(0.35, 0.08, 0.1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+outline_size = 4
+outline_color = Color(0.08, 0.04, 0.1, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_bg")]
+
+[node name="Grass" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.42, 0.76, 0.29, 1)
+
+[node name="Dirt" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.55, 0.35, 0.17, 1)
+
+[node name="Hero" type="AnimatedSprite2D" parent="."]
+position = Vector2(56, 232)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("3_hero")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Orange" type="AnimatedSprite2D" parent="."]
+position = Vector2(98, 244)
+sprite_frames = ExtResource("5_orange")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Slime" type="AnimatedSprite2D" parent="."]
+position = Vector2(428, 240)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("4_slime")
+animation = &"move"
+autoplay = "move"
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 4.0
+offset_bottom = 44.0
+grow_horizontal = 2
+text = "Japuszko"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 62.0
+grow_horizontal = 2
+text = "Przygody Jabłuszka"
+label_settings = SubResource("LabelSettings_subtitle")
+horizontal_alignment = 1
+
+[node name="MenuArea" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 60.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -62,6 +62,17 @@ func lose_life() -> void:
 	set_power(Power.NONE)
 
 
+## Stan wczytany z zapisu gry.
+func load_state(saved_lives: int, saved_coins: int, saved_power: int, saved_intro_seen: bool) -> void:
+	lives = saved_lives
+	coins = saved_coins
+	intro_seen = saved_intro_seen
+	_update_next_reward()
+	lives_changed.emit(lives)
+	coins_changed.emit(coins)
+	set_power(saved_power as Power)
+
+
 ## Gra od samego początku, razem z intro.
 func new_game() -> void:
 	intro_seen = false

@@ -8,8 +8,9 @@ const LEDGE_CHECK_X := 7.0
 const STOMP_TOLERANCE := 3.0
 ## Ile sekund Slaim zostaje zamrożony.
 const FREEZE_TIME := 4.0
-const LAYER_WORLD := 1
 const LAYER_ENEMIES := 4
+## Warstwa "frozen": zderza się z nią tylko gracz (może stanąć na lodzie), inne Slaimy przez nią przechodzą.
+const LAYER_FROZEN := 8
 
 @export var speed: float = 30.0
 @export_enum("Lewo:-1", "Prawo:1") var direction: int = -1
@@ -64,8 +65,8 @@ func freeze() -> void:
 	sprite.pause()
 	sprite.modulate = Color(0.65, 0.85, 1.0)
 	ice_block.show()
-	# Zamrożony Slaim jest częścią świata – gracz może na nim stanąć.
-	collision_layer = LAYER_WORLD | LAYER_ENEMIES
+	# Gracz może stanąć na zamrożonym Slaimie; inne Slaimy go ignorują.
+	collision_layer = LAYER_FROZEN | LAYER_ENEMIES
 
 
 func hit_by_seed() -> void:

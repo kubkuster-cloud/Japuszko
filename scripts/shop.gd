@@ -22,6 +22,7 @@ var _text_settings := LabelSettings.new()
 
 
 func _ready() -> void:
+	SaveManager.save_game(scene_file_path)
 	_text_settings.outline_size = 4
 	_text_settings.outline_color = Color(0.08, 0.04, 0.1)
 

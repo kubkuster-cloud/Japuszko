@@ -1,0 +1,61 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/boss_slime.png" id="1_mce5r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msk70"]
+atlas = ExtResource("1_mce5r")
+region = Rect2(224, 0, 56, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pck8"]
+atlas = ExtResource("1_mce5r")
+region = Rect2(0, 0, 56, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bc0w"]
+atlas = ExtResource("1_mce5r")
+region = Rect2(56, 0, 56, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuf7a"]
+atlas = ExtResource("1_mce5r")
+region = Rect2(112, 0, 56, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qeck"]
+atlas = ExtResource("1_mce5r")
+region = Rect2(168, 0, 56, 48)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msk70")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pck8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bc0w")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuf7a")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qeck")
+}],
+"loop": false,
+"name": &"land",
+"speed": 5.0
+}]

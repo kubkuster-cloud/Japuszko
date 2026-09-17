@@ -1,6 +1,6 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://dfvtx87foy0es"]
 
-[ext_resource type="Script" path="res://scripts/level.gd" id="1_2tf0o"]
+[ext_resource type="Script" uid="uid://c1l7sk44xuldu" path="res://scripts/level.gd" id="1_2tf0o"]
 [ext_resource type="PackedScene" path="res://scenes/objects/background_apple.tscn" id="2_6nqeu"]
 [ext_resource type="TileSet" path="res://assets/tiles/apple_town_tileset.tres" id="2_vx2x5"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_oyw4g"]
@@ -17,6 +17,7 @@
 [node name="AppleTown" type="Node2D" unique_id=218317441]
 script = ExtResource("1_2tf0o")
 next_level = "res://scenes/levels/orange_town.tscn"
+metadata/_edit_horizontal_guides_ = [-22.0]
 
 [node name="ParallaxBackground" parent="." unique_id=623292163 instance=ExtResource("2_6nqeu")]
 

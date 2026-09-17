@@ -17,6 +17,10 @@ const WALL_HEIGHT := 4000.0
 @export var next_level_name := "Miasto Pomarańczek"
 ## Kolor nieba na tym poziomie.
 @export var sky_color := Color(0.55, 0.8, 0.95)
+## Napis na ekranie końca poziomu (pusty = "Poziom ukończony!").
+@export var complete_title := ""
+## Tekst na końcu gry/rozdziału – czeka na Enter przed przejściem do next_level.
+@export_multiline var ending_text := ""
 
 ## Uratowani mieszkańcy (klatki w węźle Rescues).
 var rescued := 0
@@ -52,15 +56,33 @@ func _ready() -> void:
 
 	var goal := get_node_or_null("Goal")
 	if goal:
-		goal.reached.connect(_on_goal_reached)
+		goal.reached.connect(complete_level)
+	_connect_bosses()
+
+	var pause_menu := PauseMenu.new()
+	pause_menu.player = player
+	add_child(pause_menu)
+
+	# Autozapis na początku poziomu (do miejsca wybranego w menu).
+	SaveManager.save_game(scene_file_path)
 
 
-func _on_goal_reached() -> void:
+## Koniec poziomu: meta albo pokonany boss.
+func complete_level() -> void:
 	player.controls_enabled = false
 	get_tree().call_group("hud", "hide")
 	var screen := LEVEL_COMPLETE_SCENE.instantiate()
 	add_child(screen)
-	screen.play(next_level, next_level_name, rescued, rescue_total)
+	screen.play(next_level, next_level_name, rescued, rescue_total, complete_title, ending_text)
+
+
+## Boss (wróg z sygnałem "defeated") kończy poziom po pokonaniu.
+func _connect_bosses() -> void:
+	if enemies == null:
+		return
+	for enemy in enemies.get_children():
+		if enemy.has_signal("defeated"):
+			enemy.defeated.connect(complete_level)
 
 
 func _on_resident_rescued() -> void:
@@ -93,6 +115,7 @@ func _reset_enemies() -> void:
 	# Ta sama pozycja w drzewie – wrogowie liczą się po ruchu gracza.
 	move_child(fresh, index)
 	enemies = fresh
+	_connect_bosses()
 
 
 func _get_map_bounds() -> Rect2:
