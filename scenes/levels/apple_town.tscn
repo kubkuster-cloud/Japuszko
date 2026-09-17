@@ -1,6 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_2tf0o"]
+[ext_resource type="PackedScene" path="res://scenes/objects/background_apple.tscn" id="2_6nqeu"]
 [ext_resource type="TileSet" path="res://assets/tiles/apple_town_tileset.tres" id="2_vx2x5"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_oyw4g"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="4_slime"]
@@ -16,6 +17,8 @@
 [node name="AppleTown" type="Node2D" unique_id=218317441]
 script = ExtResource("1_2tf0o")
 next_level = "res://scenes/levels/orange_town.tscn"
+
+[node name="ParallaxBackground" parent="." unique_id=623292163 instance=ExtResource("2_6nqeu")]
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1867519323]
 modulate = Color(0.82, 0.82, 0.9, 1)
@@ -265,5 +268,5 @@ size = Vector2(160, 320)
 
 [node name="IntroCutscene" parent="." unique_id=1587838355 instance=ExtResource("11_pfge2")]
 
-[node name="Goal" parent="." instance=ExtResource("20_goal")]
+[node name="Goal" parent="." unique_id=1014030022 instance=ExtResource("20_goal")]
 position = Vector2(1864, 256)

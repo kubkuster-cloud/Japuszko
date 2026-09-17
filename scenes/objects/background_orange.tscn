@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/backgrounds/orange_sea.png" id="1_sea"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/orange_beach.png" id="2_beach"]
+
+[node name="ParallaxBackground" type="Node2D"]
+z_index = -10
+
+[node name="Sea" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.08, 1)
+repeat_size = Vector2(480, 0)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Sea"]
+position = Vector2(0, 110)
+texture = ExtResource("1_sea")
+centered = false
+
+[node name="Beach" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.4, 1)
+repeat_size = Vector2(480, 0)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Beach"]
+position = Vector2(0, 166)
+texture = ExtResource("2_beach")
+centered = false

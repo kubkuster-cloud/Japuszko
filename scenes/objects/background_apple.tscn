@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/backgrounds/apple_mountains.png" id="1_mountains"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/apple_trees.png" id="2_trees"]
+
+[node name="ParallaxBackground" type="Node2D"]
+z_index = -10
+
+[node name="Mountains" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.15, 1)
+repeat_size = Vector2(480, 0)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Mountains"]
+position = Vector2(0, 110)
+texture = ExtResource("1_mountains")
+centered = false
+
+[node name="Trees" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.45, 1)
+repeat_size = Vector2(480, 0)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Trees"]
+position = Vector2(0, 176)
+texture = ExtResource("2_trees")
+centered = false

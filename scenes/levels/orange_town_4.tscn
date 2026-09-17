@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_kyy3f"]
 [ext_resource type="TileSet" path="res://assets/tiles/orange_town_tileset.tres" id="2_7o3cc"]
+[ext_resource type="PackedScene" path="res://scenes/objects/background_orange.tscn" id="2_luoip"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_luoip"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="4_qvub6"]
 [ext_resource type="PackedScene" path="res://scenes/objects/rescue_cage.tscn" id="5_c3cbb"]
@@ -15,6 +16,8 @@ script = ExtResource("1_kyy3f")
 next_level = "res://scenes/levels/orange_town_5.tscn"
 next_level_name = "Miasto Pomarańczek 5/5"
 sky_color = Color(0.98, 0.72, 0.5, 1)
+
+[node name="ParallaxBackground" parent="." unique_id=1190014910 instance=ExtResource("2_luoip")]
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=166244795]
 modulate = Color(0.85, 0.82, 0.8, 1)
