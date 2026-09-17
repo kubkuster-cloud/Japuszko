@@ -15,6 +15,7 @@
 
 [node name="AppleTown" type="Node2D" unique_id=218317441]
 script = ExtResource("1_2tf0o")
+next_level = "res://scenes/levels/orange_town.tscn"
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1867519323]
 modulate = Color(0.82, 0.82, 0.9, 1)

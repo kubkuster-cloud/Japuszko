@@ -13,8 +13,10 @@ var _waiting_for_restart := false
 @onready var next_label: Label = $Center/VBox/Next
 
 
-func play(next_level: String, next_level_name: String) -> void:
+func play(next_level: String, next_level_name: String, rescued := 0, rescue_total := 0) -> void:
 	info.text = "Pieniążki: %d    Życia: %d" % [GameState.coins, GameState.lives]
+	if rescue_total > 0:
+		info.text += "\nUratowani mieszkańcy: %d/%d" % [rescued, rescue_total]
 	next_label.hide()
 	content.modulate.a = 0.0
 	fade.color.a = 0.0

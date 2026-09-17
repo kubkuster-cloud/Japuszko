@@ -5,6 +5,8 @@ var _hint_text := ""
 
 @onready var lives_label: Label = $Bar/LivesLabel
 @onready var coins_label: Label = $Bar/CoinsLabel
+@onready var rescue_label: Label = $Bar/RescueLabel
+@onready var rescue_nodes: Array[Control] = [$Bar/RescueSpacer, $Bar/RescueIcon, $Bar/RescueLabel]
 @onready var hint: PanelContainer = $HintArea/Hint
 @onready var hint_label: Label = $HintArea/Hint/Label
 
@@ -34,6 +36,13 @@ func hide_hint(text: String) -> void:
 		return
 	_hint_text = ""
 	hint.hide()
+
+
+## Licznik uratowanych mieszkańców – widoczny tylko na poziomach z klatkami.
+func set_rescued(count: int, total: int) -> void:
+	for node in rescue_nodes:
+		node.visible = total > 0
+	rescue_label.text = "%d/%d" % [count, total]
 
 
 func _on_lives_changed(lives: int) -> void:

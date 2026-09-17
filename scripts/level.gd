@@ -15,6 +15,12 @@ const WALL_HEIGHT := 4000.0
 @export_file("*.tscn") var next_level := ""
 ## Nazwa następnego poziomu na ekranie końca poziomu.
 @export var next_level_name := "Miasto Pomarańczek"
+## Kolor nieba na tym poziomie.
+@export var sky_color := Color(0.55, 0.8, 0.95)
+
+## Uratowani mieszkańcy (klatki w węźle Rescues).
+var rescued := 0
+var rescue_total := 0
 
 ## Kopia węzła Enemies z chwili startu poziomu – z niej odtwarzamy wrogów.
 var _enemies_template: Node
@@ -22,9 +28,18 @@ var _enemies_template: Node
 @onready var terrain: TileMapLayer = $Terrain
 @onready var player: Player = $Player
 @onready var enemies: Node = get_node_or_null("Enemies")
+@onready var rescues: Node = get_node_or_null("Rescues")
 
 
 func _ready() -> void:
+	RenderingServer.set_default_clear_color(sky_color)
+
+	if rescues:
+		for cage in rescues.get_children():
+			rescue_total += 1
+			cage.rescued.connect(_on_resident_rescued)
+	get_tree().call_group("hud", "set_rescued", rescued, rescue_total)
+
 	var bounds := _get_map_bounds()
 	_setup_camera(bounds)
 	_add_side_walls(bounds)
@@ -45,7 +60,12 @@ func _on_goal_reached() -> void:
 	get_tree().call_group("hud", "hide")
 	var screen := LEVEL_COMPLETE_SCENE.instantiate()
 	add_child(screen)
-	screen.play(next_level, next_level_name)
+	screen.play(next_level, next_level_name, rescued, rescue_total)
+
+
+func _on_resident_rescued() -> void:
+	rescued += 1
+	get_tree().call_group("hud", "set_rescued", rescued, rescue_total)
 
 
 func _notification(what: int) -> void:
