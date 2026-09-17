@@ -1,0 +1,37 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bau67uaguxk3g"]
+
+[ext_resource type="Texture2D" uid="uid://cjjcr81v0uenk" path="res://assets/sprites/slime.png" id="1_fvs1p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exh0o"]
+atlas = ExtResource("1_fvs1p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5me5"]
+atlas = ExtResource("1_fvs1p")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wk1wf"]
+atlas = ExtResource("1_fvs1p")
+region = Rect2(32, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exh0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5me5")
+}],
+"loop": true,
+"name": &"move",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wk1wf")
+}],
+"loop": false,
+"name": &"squished",
+"speed": 5.0
+}]

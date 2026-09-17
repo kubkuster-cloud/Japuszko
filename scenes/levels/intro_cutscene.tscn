@@ -1,0 +1,72 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/intro_cutscene.gd" id="1_intro"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_skip"]
+font_color = Color(1, 1, 1, 0.6)
+
+[node name="IntroCutscene" type="Node2D"]
+script = ExtResource("1_intro")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-272, 185)
+enabled = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Fade" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TopBar" type="ColorRect" parent="UI"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 26.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SkipHint" type="Label" parent="UI/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Spacja / Enter – pomiń"
+label_settings = SubResource("LabelSettings_skip")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BottomBar" type="ColorRect" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Caption" type="Label" parent="UI/BottomBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+vertical_alignment = 1

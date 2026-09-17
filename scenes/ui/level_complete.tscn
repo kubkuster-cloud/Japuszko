@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/level_complete.gd" id="1_complete"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_color = Color(1, 0.86, 0.3, 1)
+outline_size = 4
+outline_color = Color(0.08, 0.04, 0.1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_text"]
+outline_size = 4
+outline_color = Color(0.08, 0.04, 0.1, 1)
+
+[node name="LevelComplete" type="CanvasLayer"]
+layer = 8
+script = ExtResource("1_complete")
+
+[node name="Fade" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "Poziom ukończony!"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Info" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "Pieniążki: 0    Życia: 3"
+label_settings = SubResource("LabelSettings_text")
+horizontal_alignment = 1
+
+[node name="Next" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "Miasto Pomarańczek – już wkrótce!"
+label_settings = SubResource("LabelSettings_text")
+horizontal_alignment = 1
