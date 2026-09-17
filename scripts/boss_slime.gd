@@ -92,6 +92,8 @@ func take_damage(amount: int, invulnerability := 1.0) -> void:
 		_unfreeze()
 	if health <= 0:
 		_die()
+	else:
+		Sfx.play("boss_hit", 0.05)
 
 
 func hit_by_seed() -> void:
@@ -107,6 +109,7 @@ func freeze() -> void:
 	sprite.pause()
 	sprite.modulate = Color(0.65, 0.85, 1.0)
 	ice_block.show()
+	Sfx.play("freeze")
 	collision_layer = LAYER_FROZEN | LAYER_ENEMIES
 
 
@@ -134,6 +137,7 @@ func _jump() -> void:
 	_state = State.JUMP
 	_airborne = false
 	sprite.play(&"jump")
+	Sfx.play("boss_jump", 0.05)
 
 
 func _land() -> void:
@@ -142,6 +146,7 @@ func _land() -> void:
 	_state = State.STUNNED
 	_timer = 0.35 if _is_angry() else 0.6
 	sprite.play(&"land")
+	Sfx.play("boss_land", 0.05)
 	_shake(0.3, 4.0)
 
 
@@ -168,6 +173,7 @@ func _die() -> void:
 	velocity = Vector2.ZERO
 	sprite.visible = true
 	sprite.play(&"dead")
+	Sfx.play("boss_defeat")
 	collision_shape.set_deferred("disabled", true)
 	_shake(0.6, 5.0)
 	var tween := create_tween()

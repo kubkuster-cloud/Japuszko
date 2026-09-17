@@ -67,6 +67,7 @@ func _play() -> void:
 		return
 
 	caption.text = "SLAIMY!"
+	Sfx.play("sting")
 	for resident in residents.get_children():
 		_drop_slime(resident.position.x, true)
 		_scare(resident)
@@ -87,6 +88,7 @@ func _play() -> void:
 
 	player.sprite.flip_h = false
 	player.velocity.y = -160.0
+	Sfx.play("jump")
 	await _say("Jabłuszko, uciekaj!", 1.6)
 	_finish(false)
 
@@ -147,10 +149,16 @@ func _drop_slime(x: float, from_sky: bool) -> void:
 	slime.speed = 0.0
 	slime.position = Vector2(x, checkpoint.position.y - (DROP_HEIGHT if from_sky else 0.0))
 	town_slimes.add_child(slime)
+	if from_sky:
+		Sfx.play("fall", 0.1, -4.0)
+		# Plaśnięcie, gdy Slaim spadnie (czas swobodnego spadku z DROP_HEIGHT).
+		var fall_time := sqrt(2.0 * DROP_HEIGHT / slime.get_gravity().y) if slime.get_gravity().y > 0.0 else 0.73
+		get_tree().create_timer(fall_time).timeout.connect(Sfx.play.bind("splat", 0.1))
 
 
 func _scare(resident: AnimatedSprite2D) -> void:
 	resident.play(&"hurt")
+	Sfx.play("eek", 0.15)
 	var y := resident.position.y
 	var tween := create_tween()
 	tween.tween_property(resident, "position:y", y - 10.0, 0.15)
@@ -158,6 +166,7 @@ func _scare(resident: AnimatedSprite2D) -> void:
 
 
 func _capture(resident: AnimatedSprite2D) -> void:
+	Sfx.play("gloop", 0.15)
 	var tween := create_tween().set_parallel()
 	tween.tween_property(resident, "modulate", Color(0.7, 0.45, 1.0), 0.4)
 	tween.tween_property(resident, "scale", Vector2(0.2, 0.2), 0.4)
@@ -165,6 +174,7 @@ func _capture(resident: AnimatedSprite2D) -> void:
 
 
 func _shake(duration: float) -> void:
+	Sfx.play("rumble")
 	var tween := create_tween()
 	for i in int(duration / 0.05):
 		tween.tween_property(camera, "offset", Vector2(randf_range(-3.0, 3.0), randf_range(-2.0, 2.0)), 0.05)

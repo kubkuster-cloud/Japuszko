@@ -79,6 +79,7 @@ func die(killed_by_enemy := false) -> void:
 	visual.scale = Vector2.ONE
 	visual.visible = true
 	sprite.play(&"hurt")
+	Sfx.play("hurt")
 	died.emit()
 	get_tree().create_timer(respawn_delay).timeout.connect(_respawn)
 
@@ -137,6 +138,7 @@ func _physics_process(delta: float) -> void:
 		_jump_buffer_timer = 0.0
 		_coyote_timer = 0.0
 		_squash(Vector2(0.75, 1.25))
+		Sfx.play("jump", 0.05)
 
 	# Zmienna wysokość skoku
 	if controls_enabled and Input.is_action_just_released("jump") and velocity.y < 0.0:
@@ -156,6 +158,7 @@ func _physics_process(delta: float) -> void:
 	# Lądowanie
 	if is_on_floor() and not _was_on_floor:
 		_squash(Vector2(1.25, 0.75))
+		Sfx.play("land", 0.1, -10.0)
 	_was_on_floor = is_on_floor()
 
 	_update_animation(direction)
@@ -187,6 +190,7 @@ func _try_shoot() -> void:
 	shot.kind = GameState.power
 	shot.position = global_position + Vector2(8.0 * dir, -9.0)
 	get_parent().add_child(shot)
+	Sfx.play("shoot_ice" if GameState.power == GameState.Power.FREEZE else "shoot_seed", 0.08)
 
 
 func _squash(amount: Vector2) -> void:
@@ -204,4 +208,5 @@ func _respawn() -> void:
 	_invulnerable_timer = respawn_invulnerability
 	sprite.play(&"idle")
 	camera.reset_smoothing()
+	Sfx.play("respawn", 0.0, -4.0)
 	respawned.emit(_killed_by_enemy)

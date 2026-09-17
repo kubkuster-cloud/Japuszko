@@ -13,6 +13,7 @@
 
 [node name="OrangeTown" type="Node2D" unique_id=69094559]
 script = ExtResource("1_5brsv")
+music = "orange"
 next_level = "res://scenes/levels/orange_town_2.tscn"
 next_level_name = "Miasto Pomarańczek 2/5"
 sky_color = Color(1, 0.83, 0.62, 1)

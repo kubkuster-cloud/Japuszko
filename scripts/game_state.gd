@@ -47,6 +47,7 @@ func buy_life() -> bool:
 		return false
 	lives += 1
 	lives_changed.emit(lives)
+	Sfx.play("life_up")
 	return true
 
 

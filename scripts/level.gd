@@ -21,6 +21,8 @@ const WALL_HEIGHT := 4000.0
 @export var complete_title := ""
 ## Tekst na końcu gry/rozdziału – czeka na Enter przed przejściem do next_level.
 @export_multiline var ending_text := ""
+## Muzyka poziomu – nazwa pliku z assets/music bez ".wav" (np. "apple", "orange", "boss").
+@export var music := ""
 
 ## Uratowani mieszkańcy (klatki w węźle Rescues).
 var rescued := 0
@@ -37,6 +39,8 @@ var _enemies_template: Node
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(sky_color)
+	if music != "":
+		Music.play(music)
 
 	if rescues:
 		for cage in rescues.get_children():

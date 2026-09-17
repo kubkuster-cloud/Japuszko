@@ -16,6 +16,7 @@
 
 [node name="AppleTown" type="Node2D" unique_id=218317441]
 script = ExtResource("1_2tf0o")
+music = "apple"
 next_level = "res://scenes/levels/orange_town.tscn"
 metadata/_edit_horizontal_guides_ = [-22.0]
 

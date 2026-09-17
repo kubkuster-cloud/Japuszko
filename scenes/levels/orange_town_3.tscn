@@ -13,6 +13,7 @@
 
 [node name="OrangeTown3" type="Node2D" unique_id=170444299]
 script = ExtResource("1_gvnkg")
+music = "orange"
 next_level = "res://scenes/ui/shop.tscn"
 next_level_name = "Sklepik Pomarańczki"
 sky_color = Color(1, 0.78, 0.55, 1)

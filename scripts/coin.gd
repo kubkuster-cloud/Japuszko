@@ -13,6 +13,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if player == null or player.is_dead():
 		return
 	set_deferred("monitoring", false)
+	Sfx.play("coin", 0.03)
 	GameState.add_coins(value)
 
 	var tween := create_tween()

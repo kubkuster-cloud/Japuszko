@@ -21,6 +21,7 @@ func open() -> void:
 	title.text = "Masz %d pieniążków!" % GameState.coins
 	life_button.text = "+1 życie (-%d)" % GameState.LIFE_PRICE
 	show()
+	Sfx.play("chime")
 	get_tree().paused = true
 
 	life_button.disabled = true

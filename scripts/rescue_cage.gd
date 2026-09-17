@@ -27,6 +27,7 @@ func _on_body_entered(body: Node2D) -> void:
 	_is_free = true
 	set_deferred("monitoring", false)
 	rescued.emit()
+	Sfx.play("rescue")
 
 	# Klatka pęka
 	var burst := create_tween().set_parallel()

@@ -52,12 +52,14 @@ func _ready() -> void:
 
 
 func open() -> void:
+	Sfx.play("pause")
 	show()
 	_close_settings()
 	get_tree().paused = true
 
 
 func close() -> void:
+	Sfx.play("pause")
 	hide()
 	get_tree().paused = false
 

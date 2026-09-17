@@ -17,6 +17,7 @@ var _pending_slot := 0
 func _ready() -> void:
 	get_tree().paused = false
 	RenderingServer.set_default_clear_color(Color(0.55, 0.8, 0.95))
+	Music.play("menu")
 	$Title.text = ProjectSettings.get_setting("application/config/name")
 	_build_main()
 	_build_slots()
@@ -86,6 +87,12 @@ func _build_confirm() -> void:
 func _show(panel_name: String) -> void:
 	for key in _panels:
 		_panels[key].visible = key == panel_name
+	# Wyższe panele (ustawienia, zapisy) dostają cały ekran – tytuł gry się chowa.
+	var tall := panel_name in ["settings", "slots"]
+	$Title.visible = not tall
+	$Subtitle.visible = not tall
+	menu_area.offset_top = 0.0 if tall else 60.0
+	menu_area.offset_bottom = 0.0 if tall else -12.0
 	match panel_name:
 		"settings":
 			(_panels.settings.get_child(0) as SettingsPanel).focus_first()

@@ -18,6 +18,9 @@ var _next_after_enter := ""
 
 func play(next_level: String, next_level_name: String, rescued := 0, rescue_total := 0,
 		title_text := "", ending_text := "") -> void:
+	# Muzyka cichnie, gra dżingiel zwycięstwa.
+	Music.stop()
+	Sfx.play("level_complete")
 	if title_text != "":
 		title.text = title_text
 	info.text = "Pieniążki: %d    Życia: %d" % [GameState.coins, GameState.lives]

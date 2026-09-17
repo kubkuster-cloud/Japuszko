@@ -65,6 +65,7 @@ func freeze() -> void:
 	sprite.pause()
 	sprite.modulate = Color(0.65, 0.85, 1.0)
 	ice_block.show()
+	Sfx.play("freeze", 0.05)
 	# Gracz może stanąć na zamrożonym Slaimie; inne Slaimy go ignorują.
 	collision_layer = LAYER_FROZEN | LAYER_ENEMIES
 
@@ -121,5 +122,6 @@ func _die() -> void:
 	_dead = true
 	velocity = Vector2.ZERO
 	sprite.play(&"squished")
+	Sfx.play("stomp", 0.1)
 	collision_shape.set_deferred("disabled", true)
 	get_tree().create_timer(0.5).timeout.connect(queue_free)
