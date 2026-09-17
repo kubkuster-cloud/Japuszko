@@ -7,6 +7,8 @@ signal died
 ## Emitowany po powrocie na spawn. killed_by_enemy = true, jeśli gracz zginął od wroga.
 signal respawned(killed_by_enemy: bool)
 
+const PROJECTILE_SCENE := preload("res://scenes/objects/projectile.tscn")
+
 @export var move_speed: float = 120.0
 @export var acceleration: float = 900.0
 @export var friction: float = 1100.0
@@ -30,6 +32,10 @@ signal respawned(killed_by_enemy: bool)
 ## Czas (s) nietykalności po respawnie – wrogowie nie mogą zranić gracza.
 @export var respawn_invulnerability: float = 1.5
 
+@export_group("Moce")
+## Najkrótszy odstęp (s) między strzałami nasionkami / lodem.
+@export var shoot_cooldown: float = 0.35
+
 ## Miejsce, w którym gracz pojawia się po śmierci (domyślnie pozycja startowa).
 var spawn_position: Vector2
 ## false w czasie przerywników – gracz nie reaguje na klawisze (grawitacja działa dalej).
@@ -41,6 +47,7 @@ var _was_on_floor := true
 var _is_dead := false
 var _killed_by_enemy := false
 var _invulnerable_timer := 0.0
+var _shoot_timer := 0.0
 
 @onready var visual: Node2D = $Visual
 @onready var sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
@@ -101,6 +108,10 @@ func _physics_process(delta: float) -> void:
 	if _invulnerable_timer > 0.0:
 		_invulnerable_timer -= delta
 		visual.visible = _invulnerable_timer <= 0.0 or fmod(_invulnerable_timer, 0.2) > 0.1
+
+	_shoot_timer -= delta
+	if controls_enabled and Input.is_action_just_pressed("shoot"):
+		_try_shoot()
 
 	var on_floor := is_on_floor()
 
@@ -163,6 +174,19 @@ func _update_animation(direction: float) -> void:
 		sprite.play(&"walk")
 	else:
 		sprite.play(&"idle")
+
+
+## Strzał nasionkiem albo lodem – tylko z kupioną mocą.
+func _try_shoot() -> void:
+	if GameState.power == GameState.Power.NONE or _shoot_timer > 0.0:
+		return
+	_shoot_timer = shoot_cooldown
+	var shot := PROJECTILE_SCENE.instantiate()
+	var dir := -1.0 if sprite.flip_h else 1.0
+	shot.direction = dir
+	shot.kind = GameState.power
+	shot.position = global_position + Vector2(8.0 * dir, -9.0)
+	get_parent().add_child(shot)
 
 
 func _squash(amount: Vector2) -> void:

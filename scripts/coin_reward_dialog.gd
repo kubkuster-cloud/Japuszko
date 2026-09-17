@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func open() -> void:
 	title.text = "Masz %d pieniążków!" % GameState.coins
-	life_button.text = "+1 życie (-%d)" % GameState.COINS_PER_REWARD
+	life_button.text = "+1 życie (-%d)" % GameState.LIFE_PRICE
 	show()
 	get_tree().paused = true
 

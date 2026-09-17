@@ -1,29 +1,45 @@
 extends CharacterBody2D
 ## Slaim – prosty wróg: chodzi w lewo/prawo, zawraca przy ścianie i na krawędzi platformy.
 ## Skok na głowę go pokonuje, dotknięcie z boku rani gracza.
+## Nasionko go pokonuje, lodowy pocisk zamienia go na chwilę w bryłę lodu, na której można stanąć.
 
 const LEDGE_CHECK_X := 7.0
 ## Tolerancja (px) przy rozpoznawaniu skoku na głowę.
 const STOMP_TOLERANCE := 3.0
+## Ile sekund Slaim zostaje zamrożony.
+const FREEZE_TIME := 4.0
+const LAYER_WORLD := 1
+const LAYER_ENEMIES := 4
 
 @export var speed: float = 30.0
 @export_enum("Lewo:-1", "Prawo:1") var direction: int = -1
 
 var _dead := false
+var _frozen_timer := 0.0
 var _player: Player
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var ice_block: Sprite2D = $IceBlock
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var ledge_check: RayCast2D = $LedgeCheck
 
 
 func _ready() -> void:
 	_player = get_tree().get_first_node_in_group("player") as Player
+	ice_block.hide()
 	_face(direction)
 
 
 func _physics_process(delta: float) -> void:
 	if _dead:
+		return
+
+	if _frozen_timer > 0.0:
+		_frozen_timer -= delta
+		# Ostatnia sekunda – lód miga, że zaraz puści
+		ice_block.visible = _frozen_timer > 1.0 or fmod(_frozen_timer, 0.2) > 0.1
+		if _frozen_timer <= 0.0:
+			_unfreeze()
 		return
 
 	if not is_on_floor():
@@ -34,6 +50,35 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction * speed
 	move_and_slide()
 	_check_player(delta)
+
+
+func is_frozen() -> bool:
+	return _frozen_timer > 0.0
+
+
+func freeze() -> void:
+	if _dead:
+		return
+	_frozen_timer = FREEZE_TIME
+	velocity = Vector2.ZERO
+	sprite.pause()
+	sprite.modulate = Color(0.65, 0.85, 1.0)
+	ice_block.show()
+	# Zamrożony Slaim jest częścią świata – gracz może na nim stanąć.
+	collision_layer = LAYER_WORLD | LAYER_ENEMIES
+
+
+func hit_by_seed() -> void:
+	if not _dead:
+		_die()
+
+
+func _unfreeze() -> void:
+	_frozen_timer = 0.0
+	sprite.play()
+	sprite.modulate = Color.WHITE
+	ice_block.hide()
+	collision_layer = LAYER_ENEMIES
 
 
 func _should_turn() -> bool:
@@ -70,6 +115,8 @@ func _check_player(delta: float) -> void:
 
 
 func _die() -> void:
+	if _frozen_timer > 0.0:
+		_unfreeze()
 	_dead = true
 	velocity = Vector2.ZERO
 	sprite.play(&"squished")

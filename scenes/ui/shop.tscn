@@ -1,0 +1,124 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/shop.gd" id="1_shop"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/orange_resident_frames.tres" id="2_keeper"]
+[ext_resource type="Texture2D" path="res://assets/sprites/coin.png" id="3_coin"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_coin"]
+atlas = ExtResource("3_coin")
+region = Rect2(0, 0, 10, 10)
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_color = Color(1, 0.86, 0.3, 1)
+outline_size = 4
+outline_color = Color(0.08, 0.04, 0.1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_text"]
+outline_size = 4
+outline_color = Color(0.08, 0.04, 0.1, 1)
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_shop")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.28, 0.15, 0.09, 1)
+
+[node name="Awning" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.95, 0.55, 0.15, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 6.0
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "Sklepik Pomarańczki"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Keeper" type="AnimatedSprite2D" parent="."]
+position = Vector2(56, 92)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_keeper")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Speech" type="Label" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 44.0
+offset_right = 470.0
+offset_bottom = 86.0
+text = "Dzięki, że ratujesz nasze miasto!
+Moce działają do utraty życia."
+label_settings = SubResource("LabelSettings_text")
+vertical_alignment = 1
+
+[node name="Money" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 90.0
+offset_right = 470.0
+offset_bottom = 112.0
+theme_override_constants/separation = 3
+
+[node name="CoinIcon" type="TextureRect" parent="Money"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_coin")
+
+[node name="MoneyLabel" type="Label" parent="Money"]
+layout_mode = 2
+text = "x0"
+label_settings = SubResource("LabelSettings_text")
+
+[node name="LivesLabel" type="Label" parent="Money"]
+layout_mode = 2
+text = "   Życia: 3"
+label_settings = SubResource("LabelSettings_text")
+
+[node name="Items" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 124.0
+offset_right = 470.0
+offset_bottom = 206.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 212.0
+offset_right = 470.0
+offset_bottom = 236.0
+label_settings = SubResource("LabelSettings_text")
+horizontal_alignment = 1
+
+[node name="NextButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 240.0
+offset_right = 470.0
+offset_bottom = 264.0
+text = "Dalej →"

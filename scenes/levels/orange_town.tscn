@@ -12,7 +12,8 @@
 
 [node name="OrangeTown" type="Node2D" unique_id=69094559]
 script = ExtResource("1_5brsv")
-next_level_name = "Walka z Boss-Slaimem"
+next_level = "res://scenes/levels/orange_town_2.tscn"
+next_level_name = "Miasto Pomarańczek 2/5"
 sky_color = Color(1, 0.83, 0.62, 1)
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1204804886]
@@ -197,7 +198,7 @@ position = Vector2(1560, 184)
 
 [node name="Hint1" parent="Hints" unique_id=1542743645 instance=ExtResource("7_ua1uy")]
 position = Vector2(88, 160)
-text = "Miasto Pomarańczek! Slaimy uwięziły
+text = "Miasto Pomarańczek 1/5! Slaimy uwięziły
 mieszkańców. Uwolnij ich!"
 size = Vector2(176, 320)
 
@@ -213,7 +214,7 @@ size = Vector2(64, 320)
 
 [node name="Hint4" parent="Hints" unique_id=606462074 instance=ExtResource("7_ua1uy")]
 position = Vector2(2144, 160)
-text = "Dalej czeka Boss-Slaim!"
+text = "Dalej: Miasto Pomarańczek 2/5"
 size = Vector2(192, 320)
 
 [node name="HUD" parent="." unique_id=1312573447 instance=ExtResource("8_ypgie")]

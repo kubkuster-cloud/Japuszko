@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/coin.png" id="3_coin"]
 [ext_resource type="PackedScene" path="res://scenes/ui/coin_reward_dialog.tscn" id="4_dialog"]
 [ext_resource type="Texture2D" path="res://assets/sprites/rescue_icon.png" id="5_rescue"]
+[ext_resource type="Texture2D" path="res://assets/sprites/seed_icon.png" id="6_seed"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_coin_icon"]
 atlas = ExtResource("3_coin")
@@ -76,6 +77,17 @@ visible = false
 layout_mode = 2
 text = "0/0"
 label_settings = SubResource("LabelSettings_hud")
+
+[node name="PowerSpacer" type="Control" parent="Bar"]
+visible = false
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="PowerIcon" type="TextureRect" parent="Bar"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_seed")
 
 [node name="HintArea" type="VBoxContainer" parent="."]
 anchors_preset = 15
