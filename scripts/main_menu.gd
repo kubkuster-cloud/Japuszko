@@ -7,9 +7,10 @@ const FIRST_LEVEL := "res://scenes/levels/apple_town.tscn"
 var _panels := {}
 var _slot_mode := "new"
 var _slot_buttons: Array[Button] = []
+var _delete_buttons: Array[Button] = []
 var _slots_header: Label
 var _confirm_label: Label
-var _pending_slot := 0
+var _confirm_action := Callable()
 
 @onready var menu_area: CenterContainer = $MenuArea
 
@@ -63,9 +64,13 @@ func _build_slots() -> void:
 	_slots_header = UIStyle.make_label("", UIStyle.GOLD)
 	box.add_child(_slots_header)
 	for slot in range(1, SaveManager.SLOT_COUNT + 1):
-		var button := _button(box, "", _on_slot_pressed.bind(slot), 400)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 4)
+		box.add_child(row)
+		var button := _button(row, "", _on_slot_pressed.bind(slot), 340)
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_slot_buttons.append(button)
+		_delete_buttons.append(_button(row, "Usuń", _ask_delete.bind(slot), 60))
 	_button(box, "Wróć", _show.bind("main"), 120)
 	_add_panel("slots", box)
 
@@ -79,6 +84,7 @@ func _build_confirm() -> void:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 8)
 	_button(row, "Tak", _on_confirm_yes, 90)
+	# "Nie" wraca do listy zapisów
 	_button(row, "Nie", _show.bind("slots"), 90)
 	box.add_child(row)
 	_add_panel("confirm", box)
@@ -113,6 +119,11 @@ func _focus_first_button(node: Node) -> void:
 func _open_slots(mode: String) -> void:
 	_slot_mode = mode
 	_slots_header.text = "Nowa gra – wybierz miejsce zapisu" if mode == "new" else "Wczytaj grę"
+	_refresh_slots()
+	_show("slots")
+
+
+func _refresh_slots() -> void:
 	for i in _slot_buttons.size():
 		var slot := i + 1
 		var info := SaveManager.get_info(slot)
@@ -122,23 +133,57 @@ func _open_slots(mode: String) -> void:
 		else:
 			button.text = "%d.  %s\n     Życia: %d   Pieniążki: %d   %s" % [
 				slot, info.level_name, info.lives, info.coins, str(info.saved_at).substr(0, 16)]
-		button.disabled = mode == "load" and info.is_empty()
-	_show("slots")
+		button.disabled = _slot_mode == "load" and info.is_empty()
+		# "Usuń" tylko przy zajętych miejscach
+		_delete_buttons[i].visible = not info.is_empty()
 
 
 func _on_slot_pressed(slot: int) -> void:
 	if _slot_mode == "load":
 		_load_slot(slot)
 	elif SaveManager.has_save(slot):
-		_pending_slot = slot
-		_confirm_label.text = "Miejsce %d jest zajęte.\nNadpisać zapis nową grą?" % slot
-		_show("confirm")
+		_ask("Miejsce %d jest zajęte.\nNadpisać zapis nową grą?" % slot, _start_new.bind(slot))
 	else:
 		_start_new(slot)
 
 
+## Pytanie "na pewno?" – po "Tak" wykonuje podaną akcję, po "Nie" wraca do listy zapisów.
+func _ask(question: String, on_yes: Callable) -> void:
+	_confirm_label.text = question
+	_confirm_action = on_yes
+	_show("confirm")
+
+
+func _ask_delete(slot: int) -> void:
+	var info := SaveManager.get_info(slot)
+	_ask("Usunąć zapis w miejscu %d?\n%s   Pieniążki: %d" % [slot, info.get("level_name", ""), info.get("coins", 0)],
+		_delete_slot.bind(slot))
+
+
+func _delete_slot(slot: int) -> void:
+	SaveManager.delete_save(slot)
+	if SaveManager.current_slot == slot:
+		SaveManager.current_slot = 0
+	_rebuild_main()
+	_refresh_slots()
+	if SaveManager.has_any_save():
+		_show("slots")
+	else:
+		_show("main")
+
+
+## Menu główne zależy od zapisów (Kontynuuj, Wczytaj grę) – po usunięciu budujemy je od nowa.
+func _rebuild_main() -> void:
+	var old: Node = _panels.main
+	_panels.erase("main")
+	menu_area.remove_child(old)
+	old.queue_free()
+	_build_main()
+
+
 func _on_confirm_yes() -> void:
-	_start_new(_pending_slot)
+	if _confirm_action.is_valid():
+		_confirm_action.call()
 
 
 func _start_new(slot: int) -> void:
